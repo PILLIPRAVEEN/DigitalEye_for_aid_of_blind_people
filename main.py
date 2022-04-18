@@ -10,7 +10,7 @@ Face_detect_recognize_GPIO  =  1804     #Switch to activate the face detection a
 
 Text_detect_recognize_GPIO  =  1805     #Switch to activate the text detection and recognization block of the device
 
-Object_detect_avoid_GPIO          =  1806     #Switch to activate the common object detection excluding navigation block
+Object_detect_avoid_GPIO    =  1806     #Switch to activate the common object detection excluding navigation block
 
 #Here our device is designed in such a way that
 
@@ -64,4 +64,3 @@ while True:
         print("Only the text detection block is on")
     while(Trig_values==[0,0,0,1]):
         print("Only the object detection block is on")
-o
