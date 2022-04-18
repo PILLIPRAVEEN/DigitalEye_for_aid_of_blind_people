@@ -147,6 +147,13 @@ while True:
     while(vo_val==[0,1,1,1,1]):
         en.say("Enter the name of the person")
         en.runAndWait()
+    while(vo_val==[1,0,0,0,0]):
+        en.say("All blocks of your device are de activated")
+    while(vo_val==[1,0,0,0,1]):
+        en.say("Navigation block is activated")
+    while(vo_val==[1,0,0,1,0]):
+        en.say("Your destination has arrived")
+    
     
         
 
