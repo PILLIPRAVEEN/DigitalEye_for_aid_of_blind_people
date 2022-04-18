@@ -1,4 +1,24 @@
+#                       DESCRIPTION OF THE CODE
+
+#This file is completely based on the nested file handling techniques to import various functionalities of the design.
+
+#Each functionality of the block is equipped with a trigger to activate the corresponding block
+
+#This device main code is completely operates based on the priority conditions of the activated blocks.
+
+
 import gpioaccess as gp
+
+import voice_output as vo               #For generating voice instructions
+
+from Navigation import navigation       #For performing Navigation block including vehcile avoidance
+
+import Face_Recog_Detect_Save as frds   #For performing face detection and reecogntion including the storage of known faces
+
+from cloud_codes import obj_test        #For detection and reecognization of common objects
+
+import obstacle_avoid as oa             #For performing the obstacle avoidance. 
+
 
 #EXTERNAL TRIGGERS :
 
@@ -55,12 +75,63 @@ while True:
 
 
     while(Trig_values==[0,0,0,0]):
-        print("No operation")
-    while(Trig_values==[1,0,0,0]):
-        print("Only the Navigation block is on")
-    while(Trig_values==[0,1,0,0]):
-        print("Only face detection and recognition block is on")
-    while(Trig_values==[0,0,1,0]):
-        print("Only the text detection block is on")
-    while(Trig_values==[0,0,0,1]):
-        print("Only the object detection block is on")
+
+        #since all triggers are deactivated no operation is perfomed
+        print("All blocks are de activated")
+
+        #voice output pins = 01111 -->  All blocks of your device are deactiavted
+        vo.output([0,1,1,1,1])
+
+        #If no block is activted then the device reminds the user for every 1 minute that no block is activated.
+        time.sleep(60)
+        
+
+    #Here Navigation block is the superior block so the priority of the device will be activated from the Navigation block
+    #Here along with path mapping and direction guiding from the user's current location to the destination,
+    # the detection of vehicles and the distance prediction procedure will be activated.
+    #If a vehicle is inside the permittable range, then according to the segmentation of the image, the central coordinates
+    #of the detected vehicle is found and the corresponding voice output will be generated to avoid the vehicle in the path.
+        
+    #When the trigger for Navigatio block is activated
+    while(Trig_values[3]==1):
+
+        #Voice output pin = 10000 -->  Navigation block is activated
+        vo.output([1,0,0,0,0])
+
+        #Initializing camera
+        vid=cv2.VideoCapture(0)
+
+        #Calling the navigation block
+        navigation.navigate(vid)
+
+        #When the destinatio destination coordinates are matched with minimum distance coordintes, then the block will terminate
+
+        #Generating a voice output that the destination has arrived.
+
+        #   voice output pin - 10001 -->  "Your destination has arrived"
+        vo.output([1,0,0,0,1])
+
+
+
+        #If the trigger for face detection and recognition and known face storage is activated
+        if(Trig_values[2]==1):
+            
+            #When the face detectiona and recognition block is activated, then the immediately the
+            #  face detections count will be recorded ideally and also with a distance range.
+            #If the face detection count with distance range is excceded by a limit(10) then the face recognition block will be activated.
+            #If the detected face is recognized as one  of the face in the stored faces then a voice output will be generated with the
+            # name of the detected face.
+            #If the face is not recognized in the stored faces then the device asks for the user to save the name of the person or not.
+            #If the user suggest yes, then the device asks for the name of the face to save.
+            #Finally the captured frame will be saved with the name of the face in the saved faces for next time recognition.
+
+            #NOTE : that this block will be alive upto 50 face detections or 5 face recognitions.
+            #       After that the complete block need to be restarted.
+            
+            #Initializing the face detection and recognition and the storage of the known faces block.
+
+        
+            frds.final(vid)
+
+            #After 50 face detections or 5 face recogntions, the block will terminate.
+
