@@ -6,6 +6,9 @@
 
 #This device main code is completely operates based on the priority conditions of the activated blocks.
 
+import time
+
+import cv2
 
 import gpioaccess as gp
 
@@ -17,7 +20,7 @@ import Face_Recog_Detect_Save as frds   #For performing face detection and reeco
 
 from cloud_codes import obj_test        #For detection and reecognization of common objects
 
-import obstacle_avoid as oa             #For performing the obstacle avoidance. 
+import object_detect_avoid as oda            #For performing the obstacle avoidance. 
 
 
 #EXTERNAL TRIGGERS :
@@ -47,7 +50,7 @@ Object_detect_avoid_GPIO    =  1806     #Switch to activate the common object de
 Triggers=[Navigate_vehicle_avoid_GPIO,
           Face_detect_recognize_GPIO,
           Text_detect_recognize_GPIO,
-          Object_detect_GPIO]
+          Object_detect_avoid_GPIO]
 
 
 
@@ -129,9 +132,111 @@ while True:
             #       After that the complete block need to be restarted.
             
             #Initializing the face detection and recognition and the storage of the known faces block.
-
-        
             frds.final(vid)
-
             #After 50 face detections or 5 face recogntions, the block will terminate.
+
+            #camera will be turned off
+            vid.release()
+        if(Trig_values[1]==1):
+
+            #When the Object detection and obstacle avoidance block is activated, then the common objects are segregated into obstacle and 
+            #   non obstacle objects and are trained to the model.
+            #The object recognition process works on the basis of cvlib which usually trains the YOLOV3 dataset as the reference models
+            #YOLOV3 consists of 80 predefined real time object models and are trained using Tensorflow.
+
+            #If an object is detected, then a voice ouput will be generated with name of the objec talong wtth the direction of detection.
+
+            #Here some of the models are defined to be as obstacles and remaining are considered as non obstacles.
+            #The bounding box coordinates of the obstacles are to be recorded and the central coordinates are to be calculated.
+            #Based on the central coordinates, the device takes a decesion to direct the user in an appropriate direction inorder to 
+            #  avoid the obstacle.
+
+            #NOTE: This object detection and obstacle avoidance block is meant only for 1 minute. After that it will be terminated and restarted.
+
+            #Intitial time when the object detection block is detected
+            init_time = time.time()
+            while vid.isOpened():
+                ret,img=vid.read()
+
+                #Calling the object detection and obstacle avoidance function.
+                oda.obj_det_avd(img)
+
+                #Final time for duration comparision
+                final_time=time.time()
+
+                #If the duration is greater than one minute, the camera will be turned off.
+                if((final_time-init_time)>60):
+                    vid.release()
+
+
+    while(Trig_values[3]==0):
+
+        #Voice output pin = 10000 -->  Navigation block is activated
+        vo.output([1,0,0,0,0])
+
+        #Initializing camera
+        vid=cv2.VideoCapture(0)
+
+        #Calling the navigation block
+        navigation.navigate(vid)
+
+        #When the destinatio destination coordinates are matched with minimum distance coordintes, then the block will terminate
+
+        #Generating a voice output that the destination has arrived.
+
+        #   voice output pin - 10001 -->  "Your destination has arrived"
+        vo.output([1,0,0,0,1])
+
+
+
+        #If the trigger for face detection and recognition and known face storage is activated
+        if(Trig_values[2]==1):
+            
+            #When the face detectiona and recognition block is activated, then the immediately the
+            #  face detections count will be recorded ideally and also with a distance range.
+            #If the face detection count with distance range is excceded by a limit(10) then the face recognition block will be activated.
+            #If the detected face is recognized as one  of the face in the stored faces then a voice output will be generated with the
+            # name of the detected face.
+            #If the face is not recognized in the stored faces then the device asks for the user to save the name of the person or not.
+            #If the user suggest yes, then the device asks for the name of the face to save.
+            #Finally the captured frame will be saved with the name of the face in the saved faces for next time recognition.
+
+            #NOTE : that this block will be alive upto 50 face detections or 5 face recognitions.
+            #       After that the complete block need to be restarted.
+            
+            #Initializing the face detection and recognition and the storage of the known faces block.
+            frds.final(vid)
+            #After 50 face detections or 5 face recogntions, the block will terminate.
+
+            vid.release()
+        if(Trig_values[1]==1):
+
+            #When the Object detection and obstacle avoidance block is activated, then the common objects are segregated into obstacle and 
+            #   non obstacle objects and are trained to the model.
+            #The object recognition process works on the basis of cvlib which usually trains the YOLOV3 dataset as the reference models
+            #YOLOV3 consists of 80 predefined real time object models and are trained using Tensorflow.
+
+            #If an object is detected, then a voice ouput will be generated with name of the objec talong wtth the direction of detection.
+
+            #Here some of the models are defined to be as obstacles and remaining are considered as non obstacles.
+            #The bounding box coordinates of the obstacles are to be recorded and the central coordinates are to be calculated.
+            #Based on the central coordinates, the device takes a decesion to direct the user in an appropriate direction inorder to 
+            #  avoid the obstacle.
+
+            #NOTE: This object detection and obstacle avoidance block is meant only for 1 minute. After that it will be terminated and restarted.
+
+            #Intitial time when the object detection block is detected
+            init_time = time.time()
+            while vid.isOpened():
+                ret,img=vid.read()
+
+                #Calling the object detection and obstacle avoidance function.
+                oda.obj_det_avd(img)
+
+                #Final time for duration comparision
+                final_time=time.time()
+
+                #If the duration is greater than one minute, the camera will be turned off.
+                if((final_time-init_time)>60):
+                    vid.release()
 
