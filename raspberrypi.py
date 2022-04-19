@@ -153,6 +153,24 @@ while True:
         en.say("Navigation block is activated")
     while(vo_val==[1,0,0,1,0]):
         en.say("Your destination has arrived")
+    while(vo_val==[1,0,0,1,1]):
+        en.say("Face detection and recognition block is actiavted")
+    while(vo_val==[1,0,1,0,0]):
+        en.say("Face detection and recogntion block is deactivated")
+    while(vo_val==[1,0,1,0,1]):
+        en.say("Object detection and obstacle avoidance block is activated")
+    while(vo_val==[1,0,1,1,0]):
+        en.say("Object detection and obstacle avoidance block is deactivated")
+    while(vo_val==[1,0,1,1,1]):
+        en.say("Text detection and recognition block is activated")
+    while(vo_val==[1,1,0,0,0]):
+        en.say("Text detection and recognization block is activated")
+    while(vo_val==[1,1,1,0,0]):
+        en.say("Text detection and recognization block is deactivated")
+    while(vo_val==[1,1,1,0,1]):
+        en.say("Currency detection and recognition block is activated")
+    while(vo_val==[1,1,1,1,0]):
+        en.say("Currency detection and recognition block is deactivated")
     
     
         
