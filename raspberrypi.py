@@ -7,16 +7,16 @@
 #Due to the absence of audio drivers in the pre installer OS, the microphone and the speaker connections are left idle.
 #To recieve the voice input from the user and to generate a voice ouput, we are using this Raspberry pi board. 
  
-#                           CONNECTIONS
-#   Raspberry pi            DE10 Nano               PIN_TYPE
-#   GPIO5                   GPIO1839                Voice_output[4]
-#   GPIO6                   GPIO1840                Voice_output[3]
-#   GPIO17                  GPIO1841                Voice_output[2]            
-#   GPIO22                  GPIO1842                Voice_output[1]
-#   GPIO27                  GPIO1843                Voice_output[0]
+#                                                              CONNECTIONS
+#                                       Raspberry pi            DE10 Nano               PIN_TYPE
+#                                       GPIO5                   GPIO1839                Voice_output[4]
+#                                       GPIO6                   GPIO1840                Voice_output[3]
+#                                       GPIO17                  GPIO1841                Voice_output[2]            
+#                                       GPIO22                  GPIO1842                Voice_output[1]
+#                                       GPIO27                  GPIO1843                Voice_output[0]
 
-#   GPIO23                  GPIO1844                Voice_input_Trigger
-#   GPIO24                  GPIO1845                Trigger to send data from dd10 nano to Raspberry pi
+#                                       GPIO23                  GPIO1844                Voice_input_Trigger
+#                                       GPIO24                  GPIO1845                Trigger to send data from dd10 nano to Raspberry pi
 
 
 import RPi.GPIO as gp
@@ -149,28 +149,43 @@ while True:
         en.runAndWait()
     while(vo_val==[1,0,0,0,0]):
         en.say("All blocks of your device are de activated")
+        en.runAndWait()
     while(vo_val==[1,0,0,0,1]):
         en.say("Navigation block is activated")
+        en.runAndWait()
     while(vo_val==[1,0,0,1,0]):
         en.say("Your destination has arrived")
+        en.runAndWait()
     while(vo_val==[1,0,0,1,1]):
         en.say("Face detection and recognition block is actiavted")
+        en.runAndWait()
     while(vo_val==[1,0,1,0,0]):
         en.say("Face detection and recogntion block is deactivated")
+        en.runAndWait()
     while(vo_val==[1,0,1,0,1]):
         en.say("Object detection and obstacle avoidance block is activated")
+        en.runAndWait()
     while(vo_val==[1,0,1,1,0]):
         en.say("Object detection and obstacle avoidance block is deactivated")
+        en.runAndWait()
     while(vo_val==[1,0,1,1,1]):
         en.say("Text detection and recognition block is activated")
+        en.runAndWait()
     while(vo_val==[1,1,0,0,0]):
         en.say("Text detection and recognization block is activated")
+        en.runAndWait()
     while(vo_val==[1,1,1,0,0]):
         en.say("Text detection and recognization block is deactivated")
+        en.runAndWait()
     while(vo_val==[1,1,1,0,1]):
         en.say("Currency detection and recognition block is activated")
+        en.runAndWait()
     while(vo_val==[1,1,1,1,0]):
         en.say("Currency detection and recognition block is deactivated")
+        en.runAndWait()
+    while(vo_val==[1,1,1,1,1]):
+        en.say("Same frame is repeated would you like to read it once more")
+        en.runAndWait()
     
     
         
