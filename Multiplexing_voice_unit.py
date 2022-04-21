@@ -9,11 +9,11 @@
  
 #                                                              CONNECTIONS
 #                                       Raspberry pi            DE10 Nano               PIN_TYPE
-#                                       GPIO5                   GPIO1839                Voice_output[4]
-#                                       GPIO6                   GPIO1840                Voice_output[3]
+#                                       GPIO5                   GPIO1839                Voice_output[0]
+#                                       GPIO6                   GPIO1840                Voice_output[1]
 #                                       GPIO17                  GPIO1841                Voice_output[2]            
-#                                       GPIO22                  GPIO1842                Voice_output[1]
-#                                       GPIO27                  GPIO1843                Voice_output[0]
+#                                       GPIO22                  GPIO1842                Voice_output[3]
+#                                       GPIO27                  GPIO1843                Voice_output[4]
 
 #                                       GPIO23                  GPIO1844                Voice_input_Trigger
 #                                       GPIO24                  GPIO1845                Trigger to send data from dd10 nano to Raspberry pi
