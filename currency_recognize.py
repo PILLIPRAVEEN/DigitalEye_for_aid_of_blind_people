@@ -66,7 +66,7 @@ def detect(vid,duration):
     init_time = time.time()    
 
     #Faces of diffrent curreency images
-    curre_faces=['Rupee','dollar1','dollar2','dollar3','dollar4','dollar5','dollar6']
+    curre_faces=['Gandhiji','Franklin','Grant','Jackson','Hamilton','Lincon','Washington']
 
     #Values of US Dollars
     dollar=['100','50','20','10','5','2','1']
