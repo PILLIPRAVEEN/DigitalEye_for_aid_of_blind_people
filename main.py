@@ -26,7 +26,7 @@
 #       2.Multiple block execution:
 #If multiple blocks are activated once then each block is given an execution period of 1 minute other than Navigation Block.
 #Then according to the prority of the block, sequential order of the block will be choosen.
-#Finally in this condition all the blocks accept navigation block will acts as periodic blocks of period 1 minute. 
+#Finally in this condition all the blocks except navigation block will acts as periodic blocks of period 1 minute. 
 
 
 #NOTE : Navigation block is Higher priority block. So it is not provided with any external execution duration. 
