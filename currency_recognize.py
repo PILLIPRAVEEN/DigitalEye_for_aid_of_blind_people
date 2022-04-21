@@ -79,12 +79,13 @@ def detect(vid,duration):
     while vid.isOpened():
         
         ret,img-vid.read()
-        result = face_test.recognize(img)
 
         li=fdd.face(img)
 
         #If a face on the currency is detected
         if(li[0]>0):
+            #Face recognition block is activated.
+            result = face_test.recognize(img)
 
             #Face recogniion block will be activated.
             name=result['prediction']
