@@ -40,7 +40,6 @@ def value(img):
 
     #Detected contours will be looped and the rectangle bounding box will be cropped.
 
-    total_txt = ''
     for cnt in contrs:
         #Bouding the rectangle dimensions
         x,y,w,h = cv2.boundingRect(cnt)
@@ -51,15 +50,14 @@ def value(img):
         #Croppingthe image
         cr=img[y:y+h,x:x+w]
 
-        #Detection of text sentense by sentense
+        #Detection of text in only first sentense.
         txt=pytesseract.image_to_string(cr)
+        break
 
         ##cv2.imshow(img)
         ##cv2.waitKey(0)
 
-        #Forming complete text in the frame
-        total_txt= total_txt + " " +txt
-        return(total_text)
+    return(txt)
 
 
 def detect(vid,duration):
