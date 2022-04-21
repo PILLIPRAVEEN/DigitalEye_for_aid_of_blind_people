@@ -1,4 +1,4 @@
-#                                FUNCTIONALITY OF THE CODE
+#                  FUNCTIONALITY OF THE CODE
 
 #This code imports the face detection algorithm from the local folder (in DE10 Nano)
 # and initiates face detections count and distancr predictions algorithm to the detected face.  
@@ -19,6 +19,9 @@
 
 #And from the next iteration the saved face will also be recognized.
 
+#Finally the block will end if the duration time is exceeded.
+
+
 import cv2
 
 import time
@@ -37,7 +40,14 @@ import voice_send as vs#For sending the detected face name to Raspberry pi
 from cloud_codes import face_test #Importing the face recognition code from the cloud docker resource 
 
 
-def final(vid):
+#Initializing the camera
+vid -cv2.VideoCapture(0)
+
+
+def final(vid,duration):
+
+    #Initial time of starting the block
+    init_time = time.time()    
 
     #Initially set the face detection count =0
     face_detect_count=0
@@ -92,5 +102,14 @@ def final(vid):
 
                 #Finally resets the face detections coutn to 0
                 face_detect_count = 0
+                
+        #Final time to record
+        final_time = time.time()
+
+        #If the duration of the block is greater than the required duration, then the block will end
+        if((final_time-init_time)>= duration):
+            break
+
+        
             
             
