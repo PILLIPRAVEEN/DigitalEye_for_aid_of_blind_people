@@ -12,7 +12,10 @@
 
 #Based on the user's choice the repeated text will be read or neglected.
 
+#Finally after the given duration is exceeded the complete block will end
 
+
+import time
 
 import cv2
 
@@ -24,19 +27,23 @@ import voice_input as vi #For the user choice to read the same frame or not
 
 import voice_send as vs #For sending the detected text to multiplexing voice unit of the device.
 
-def read(vid):
+vid=cv2.VideoCapture(0)
+
+def read(vid,duration):
+
+    #Initial time of starting the block
+    init_time = time.time()
+
+    ret,img=vid.read()
 
     #Creating temporary variable to detect if the same frame is repeated.
     temp_txt = ''
 
-    
     while vid.isOpened():
-
-        ret,img=vid.read()
-
+                  
         #Gray scale image conversion
         gr=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
+    
         #Performing OTSU Threshold
         ret,thresh = cv2.threshold(gr,0,255,cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
 
@@ -50,7 +57,7 @@ def read(vid):
         contrs,heir = cv2.findContours(dil,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
 
         #Detected contours will be looped and the rectangle bounding box will be cropped.
-
+    
         total_txt = ''
         for cnt in contrs:
 
@@ -84,23 +91,31 @@ def read(vid):
 
             #If the user's choice is yes then the detected text will be read again
             if(choice == 'yes'):
-
-                #Ending the detected text to voice output multiplexing unit.  
+    
+                #Sending the detected text to voice output multiplexing unit.  
                 vs.send(total_txt)
-        #Updating the temporary text with the detected text
-        temp_txt = total_txt            
-
+            else:
+    
+                #Sending a message that the text is neglected
+                vs.send("The repeated text is neglected")
+    
         #If the frame is not matched with the previous frame
         else:
-            
             #sending the detected text to voice output multiplexing unit
-            vs.send(total_txt)
-
-            #Updating the temporary text with the detected text
-            temp_txt = total_txt
+            vs.send(total_text)
+    
                 
+        #Updating the temporary text with the detected text
+        temp_txt = total_txt
 
-            
+        #Final time to record
+        final_time = time.time()
+
+        #If the duration of the block is greater than the required duration, then the block will end
+        if((final_time-init_time)>= duration):
+            break
+    
+                
                 
 
             
