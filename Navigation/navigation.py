@@ -102,10 +102,10 @@ def navigate():
                 Direc_ang=math_functions.angdec(ang1)
         
             	#Angle of deflection obtained form Magnetometer of the RFS card --> Deviation Angle
-                Deviat_ang=math_functions.angdec()###################################################################################################################
+                #Deviat_ang=math_functions.angdec()
         
             	#Difference between the deviation angle and the direct angle -->  Reference Angle.
-                Ref_ang=Direc_ang-Deviat_ang
+                Ref_ang=Direc_ang
         
         
                 #                       OCTA - SEGMENTATION OF THE POLAR PLANE
