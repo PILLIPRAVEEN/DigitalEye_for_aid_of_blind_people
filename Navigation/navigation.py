@@ -1,5 +1,8 @@
 #                       WORKING PRINCIPLE OF THE ALGORITHM
 
+#When the navigation block is activated, the device asks for the user's destination and recieves the destination name through serial communication
+#Coordinates will be fetched from the destination name from geocoders and the shortest path will be mapped from the user's current coordinate to the destination.
+
 #1.  Initially the path between the user's current coordinate and the destination coordinates
 #    are stored in a list.
 
