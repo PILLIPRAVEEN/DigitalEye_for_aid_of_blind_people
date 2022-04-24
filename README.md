@@ -53,3 +53,42 @@ PROJECT DESCRIPTION :
           if a face is detected, it activated the face recogntion unit and the face o the currency will be compared with stored faces of national leaders of different currency.
           and if the face is matched, then the text detection unit will be activated for first line of the currency. And based on the detected text on the 
           currency and the face on the currency, the value and the type of currency will be determined and sends to voice output.
+          
+          
+          
+                                                        HOW TO OPERATE THE DEVICE :
+ CONNECTIONS:
+ 
+ Connect a USB hub through the OTG cable from the mini USB port of the DE 10 nano to connect different peripherals such as USB camera, USB GPS dongler, male to male USB with Raspberry pi and a USB tethered Internet source etc. Noe connect the GPIO pins of the DE10 nano board as given below to establish a 
+ Multiplexing voice unit
+ #Due to the absence of audio drivers in the pre installer OS, the microphone and the speaker connections are left idle.
+#To recieve the voice input from the user and to generate a voice ouput, we are using this Raspberry pi board. 
+ 
+                                       Raspberry pi            DE10 Nano               PIN_TYPE
+                                       GPIO5                   GPIO1839                Voice_output[0]
+                                       GPIO6                   GPIO1840                Voice_output[1]
+                                       GPIO17                  GPIO1841                Voice_output[2]            
+                                       GPIO22                  GPIO1842                Voice_output[3]
+                                       GPIO27                  GPIO1843                Voice_output[4]
+
+                                       GPIO23                  GPIO1844                Voice_input_Trigger
+                                       GPIO24                  GPIO1845                Trigger to send data from dd10 nano to Raspberry pi
+ 
+EXECUTION :
+
+To activate the device, the central block i.e main.py is need to be executed first and the desired triggers need to activated.
+Here each code represents each block or sub block.
+
+main.py                       -->    All blocks including triggers.
+
+Navigation/navigation.py      -->    For perfomroing
+Face_Recog_Detect_Save.py     -->    Face recogntion and detection block
+facedetect_distance.py        -->    (sub block) For detecting the faces and estimating their distances.
+cloud_codes/facerecog.py      -->    (sub block) Function to recognize the faces matching with saved faces
+cloud_codes/face_test.py      -->    (sub block) For recieving the response of recognized image from the App service using container registry
+
+app.py                        -->    For deploying the face recognition code and object recogntion codes in the App service sectio of thecloud.
+
+Dockerfile                    -->    For installing the prerequisite modules to run the face recogntion and object recognition functions.
+
+
