@@ -1,6 +1,6 @@
                                                  DIGITAL EYE FIR AID OF BLIND PEOPLE
 
-PROJECT DESCRIPTION :
+    PROJECT DESCRIPTION :
           This project is designed for blind people or visually impaired people using DE 10 nano FPGA board, RFS card and Azure Cloud.
           This project aims to resemble the role of our present technology in improving the status of living conditions of blind people.
           Using this project a guidance system can be provided to the blind in safely reaching to a destination and to recognize and to 
@@ -57,12 +57,11 @@ PROJECT DESCRIPTION :
           
           
                                                         HOW TO OPERATE THE DEVICE :
- CONNECTIONS:
+    CONNECTIONS:
  
- Connect a USB hub through the OTG cable from the mini USB port of the DE 10 nano to connect different peripherals such as USB camera, USB GPS dongler, male to male USB with Raspberry pi and a USB tethered Internet source etc. Noe connect the GPIO pins of the DE10 nano board as given below to establish a 
- Multiplexing voice unit
- #Due to the absence of audio drivers in the pre installer OS, the microphone and the speaker connections are left idle.
-#To recieve the voice input from the user and to generate a voice ouput, we are using this Raspberry pi board. 
+      Connect a USB hub through the OTG cable from the mini USB port of the DE 10 nano to connect different peripherals such as USB camera, USB GPS dongler, male to male USB with Raspberry pi and a USB tethered Internet source etc. Noe connect the GPIO pins of the DE10 nano board as given below to establish a  Multiplexing voice unit
+    Due to the absence of audio drivers in the pre installer OS, the microphone and the speaker connections are left idle.
+    To recieve the voice input from the user and to generate a voice ouput, we are using this Raspberry pi board. 
  
                                        Raspberry pi            DE10 Nano               PIN_TYPE
                                        GPIO5                   GPIO1839                Voice_output[0]
@@ -74,21 +73,53 @@ PROJECT DESCRIPTION :
                                        GPIO23                  GPIO1844                Voice_input_Trigger
                                        GPIO24                  GPIO1845                Trigger to send data from dd10 nano to Raspberry pi
  
-EXECUTION :
+    EXECUTION :
 
-To activate the device, the central block i.e main.py is need to be executed first and the desired triggers need to activated.
-Here each code represents each block or sub block.
+      To activate the device, the central block i.e main.py is need to be executed first and the desired triggers need to activated.
+      Here each code represents each block or sub block.
 
-main.py                       -->    All blocks including triggers.
+      main.py                                 -->    All blocks including triggers.(Execution file to use )
+      
+      This main file uses these following files using nested file handling technique to operate the device
+       
+      Navigation block:
+      
+      Navigation/navigation.py                -->    (Navigation block)For performing main navigation block and as well as vehicle avoidance unit.
+      Navigation/destination_coordinates.py   -->    (sub block) For recieving the destination name from the user and for fetching its coordinates.
+      Navigation/gpioaccess.py                -->    (sub block) For reading,writing and exporting the GPIO pins of the multiplexing unit.
+      Navigation/math_functions.py            -->    (sub block) For performing mathematical operations on GPS coordinates.
+      Navigation/user_coordinates.py          -->    (sub block) To get user's cuurent coordinates from the GPS dongle.
+      Navigation/ path_coordinates.py         -->    (sub block) To fetch the shortest path coordinates from the user's current coordinates to the                                                            destination coordinate.
+      vehicle_distance.py                     -->    (sub block) To detect the type of vehicle and the distance of the vehcile from the user.
+      vehicle_avoid.py                        -->    (sub block) To direct the user to avoid the vehilces in the path.
+      
+      
+      Multiplexing Unit:
+      
+      voice_input.py                          -->    To take the input from the user and to recieve through serial communication when the trigger is                                                          activated.
+      voice_output.py                         -->    To generate voice instructions based on the GPIO configuration.
+      voice_send.py                           -->    To send an instruction to the voice output unit through serial communication.
+      
+      
+      Face recogntion and detection block:      
+      
+      Face_Recog_Detect_Save.py              -->    Face recogntion and detection block
+      facedetect_distance.py                 -->    (sub block) For detecting the faces and estimating their distances.
+      cloud_codes/facerecog.py               -->    (sub block) Function to recognize the faces matching with saved faces.
+      loud_codes/face_test.py                -->    (sub block) For recieving the response of recognized image from the App service. 
 
-Navigation/navigation.py      -->    For perfomroing
-Face_Recog_Detect_Save.py     -->    Face recogntion and detection block
-facedetect_distance.py        -->    (sub block) For detecting the faces and estimating their distances.
-cloud_codes/facerecog.py      -->    (sub block) Function to recognize the faces matching with saved faces
-cloud_codes/face_test.py      -->    (sub block) For recieving the response of recognized image from the App service using container registry
+      app.py                                 -->    For deploying the face recognition code and object recogntion codes in the App service sectio of                                                          the cloud.
 
-app.py                        -->    For deploying the face recognition code and object recogntion codes in the App service sectio of thecloud.
-
-Dockerfile                    -->    For installing the prerequisite modules to run the face recogntion and object recognition functions.
-
-
+      Dockerfile                             -->    For installing the prerequisite modules to run the face recogntion and object recognition functions.
+      
+      Object detection and obstacle avoidance block:
+      
+      object_detect_avoid.py                 -->    For intimating about the detected objects and to generate instructions to avoid the obstalce.
+      cloud_codes/obdetect.py                -->    (sub block) Function to detect the common objects from the pretrained models of cvlib.
+      cloud_codes/obj_test.py                -->    (sub_block)For recieving the response of detected objects from the App service.
+          
+      Optical character recognization block :
+      text_recog.py                          -->    To detect and recognize the text line by line using tesseract OCR and to send it to the voice output                                                      unit.
+      
+      Currency recogntion block :
+      currency_recognize.py                  -->    To detect the type of currency and to recognize the value of currency.
